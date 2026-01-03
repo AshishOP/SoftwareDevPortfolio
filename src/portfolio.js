@@ -186,7 +186,7 @@ const bigProjects = {
         },
         {
           name: "Visit Shop",
-          url: "https://ragebait-o2bb6.ondigitalocean.app/"
+          url: "https://test.ragebaitclothing.in/"
         }
       ]
     }
