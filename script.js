@@ -129,33 +129,32 @@ gsap.to([".hero-image-container", ".liquid-text-overlay"], {
 });
 
 
-// B. Horizontal Scroll for Projects Section (Works on all devices)
-// B. Horizontal Scroll for Projects Section (Desktop Only)
+// B. Horizontal Scroll (GSAP Pinned)
+// This captures standard vertical scroll and converts to horizontal movement
 const projectsContainer = document.querySelector(".projects-container");
 const workSection = document.querySelector(".work-section");
 
 if (projectsContainer && workSection) {
     window.addEventListener("load", () => {
-        // Universal Horizontal Scroll (Desktop & Mobile)
-        // Dynamic distance calculation for responsiveness
-        const getScrollDistance = () => -(projectsContainer.scrollWidth - window.innerWidth + 50);
+        // Only activate if content overflows
+        if (projectsContainer.scrollWidth > window.innerWidth) {
+            const getScrollDistance = () => -(projectsContainer.scrollWidth - window.innerWidth + 50);
 
-        gsap.to(projectsContainer, {
-            x: getScrollDistance,
-            ease: "none",
-            scrollTrigger: {
-                trigger: workSection,
-                pin: true,
-                start: "top top",
-                end: () => "+=" + Math.abs(getScrollDistance()),
-                scrub: 1, // Smooth interaction
-                invalidateOnRefresh: true,
-                anticipatePin: 1
-            }
-        });
-
+            gsap.to(projectsContainer, {
+                x: getScrollDistance,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: workSection,
+                    pin: true,
+                    start: "top top",
+                    end: () => "+=" + Math.abs(getScrollDistance()),
+                    scrub: 1,
+                    invalidateOnRefresh: true
+                }
+            });
+        }
         ScrollTrigger.refresh();
-        console.log("Horizontal Scroll Initialized Globally after Load");
+        console.log("Global Page Scroll Driving Project Section - v62");
     });
 }
 
