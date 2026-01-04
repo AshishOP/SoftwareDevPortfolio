@@ -573,37 +573,83 @@ window.addEventListener("load", () => {
 });
 
 // ==================================================
-// 8. TOUCH DRAG FOR MOBILE (Footer CTA)
+// 8. TOUCH DRAG FOR MOBILE (Footer CTA) - Bubble Effect
 // ==================================================
 const touchDragElements = document.querySelectorAll('.touch-drag');
 touchDragElements.forEach(el => {
-    let startX, startY, currentX = 0, currentY = 0;
+    let startX, startY;
+    let targetX = 0, targetY = 0;
+    let currentX = 0, currentY = 0;
+    let isAnimating = false;
+
+    // Damping factor - lower = more subtle movement (0.1 = 10% of finger movement)
+    const DAMPING = 0.08;
+    // Max movement in pixels
+    const MAX_MOVE = 15;
+    // Smoothing duration
+    const SMOOTH_DURATION = 0.6;
+
+    // Smooth animation loop using GSAP
+    const animateToTarget = () => {
+        gsap.to(el, {
+            x: targetX,
+            y: targetY,
+            duration: SMOOTH_DURATION,
+            ease: "power2.out",
+            overwrite: true
+        });
+    };
 
     el.addEventListener('touchstart', (e) => {
-        startX = e.touches[0].clientX - currentX;
-        startY = e.touches[0].clientY - currentY;
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        isAnimating = true;
     });
 
     el.addEventListener('touchmove', (e) => {
-        currentX = e.touches[0].clientX - startX;
-        currentY = e.touches[0].clientY - startY;
+        if (!isAnimating) return;
 
-        // Limit movement range
-        currentX = Math.max(-100, Math.min(100, currentX));
-        currentY = Math.max(-50, Math.min(50, currentY));
+        // Calculate finger movement from start
+        const deltaX = e.touches[0].clientX - startX;
+        const deltaY = e.touches[0].clientY - startY;
 
-        el.style.transform = `translate(${currentX}px, ${currentY}px)`;
+        // Apply heavy damping - element moves only a fraction of finger movement
+        targetX = deltaX * DAMPING;
+        targetY = deltaY * DAMPING;
+
+        // Limit movement range for subtle bubble effect
+        targetX = Math.max(-MAX_MOVE, Math.min(MAX_MOVE, targetX));
+        targetY = Math.max(-MAX_MOVE, Math.min(MAX_MOVE, targetY));
+
+        // Smooth animate to target position
+        animateToTarget();
     });
 
     el.addEventListener('touchend', () => {
-        // Spring back effect
+        isAnimating = false;
+        targetX = 0;
+        targetY = 0;
+
+        // Gentle elastic spring back - like a bubble settling
+        gsap.to(el, {
+            x: 0,
+            y: 0,
+            duration: 0.8,
+            ease: "elastic.out(1, 0.4)",
+            overwrite: true
+        });
+    });
+
+    el.addEventListener('touchcancel', () => {
+        isAnimating = false;
+        targetX = 0;
+        targetY = 0;
         gsap.to(el, {
             x: 0,
             y: 0,
             duration: 0.5,
-            ease: "elastic.out(1, 0.5)"
+            ease: "power3.out",
+            overwrite: true
         });
-        currentX = 0;
-        currentY = 0;
     });
 });
