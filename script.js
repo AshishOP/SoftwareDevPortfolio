@@ -129,33 +129,48 @@ gsap.to([".hero-image-container", ".liquid-text-overlay"], {
 });
 
 
-// B. Horizontal Scroll (GSAP Pinned)
-// This captures standard vertical scroll and converts to horizontal movement
+// B. Horizontal Scroll (Vanilla JS - no GSAP)
 const projectsContainer = document.querySelector(".projects-container");
 const workSection = document.querySelector(".work-section");
 
 if (projectsContainer && workSection) {
-    window.addEventListener("load", () => {
-        // Only activate if content overflows
-        if (projectsContainer.scrollWidth > window.innerWidth) {
-            const getScrollDistance = () => -(projectsContainer.scrollWidth - window.innerWidth + 50);
+    // Calculate max scroll distance
+    const updateHorizontalScroll = () => {
+        const rect = workSection.getBoundingClientRect();
+        const sectionTop = rect.top;
+        const sectionHeight = rect.height - window.innerHeight;
 
-            gsap.to(projectsContainer, {
-                x: getScrollDistance,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: workSection,
-                    pin: true,
-                    start: "top top",
-                    end: () => "+=" + Math.abs(getScrollDistance()),
-                    scrub: 1,
-                    invalidateOnRefresh: true
-                }
-            });
+        // Only transform when section is in view and being scrolled through
+        if (sectionTop <= 0 && sectionTop >= -sectionHeight) {
+            // Slow down the progress so horizontal scroll completes at 70% of vertical scroll
+            const rawProgress = Math.abs(sectionTop) / sectionHeight;
+            const progress = Math.min(rawProgress / 0.7, 1); // Complete horizontal scroll at 70% vertical
+            const maxScroll = projectsContainer.scrollWidth - window.innerWidth + 100;
+            projectsContainer.style.transform = `translateX(${-progress * maxScroll}px)`;
+        } else if (sectionTop > 0) {
+            // Before section - reset
+            projectsContainer.style.transform = `translateX(0px)`;
+        } else {
+            // After section - keep at end position
+            const maxScroll = projectsContainer.scrollWidth - window.innerWidth + 100;
+            projectsContainer.style.transform = `translateX(${-maxScroll}px)`;
         }
-        ScrollTrigger.refresh();
-        console.log("Global Page Scroll Driving Project Section - v62");
+    };
+
+    // Use requestAnimationFrame for smooth performance
+    let ticking = false;
+    window.addEventListener("scroll", () => {
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                updateHorizontalScroll();
+                ticking = false;
+            });
+            ticking = true;
+        }
     });
+
+    // Initial call
+    updateHorizontalScroll();
 }
 
 
