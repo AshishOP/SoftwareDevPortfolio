@@ -127,31 +127,53 @@
     
     skillsGrid.innerHTML = '';
     
-    portfolioData.skillProgress.forEach(skill => {
-        const skillItem = document.createElement('div');
-        skillItem.className = 'skill-item';
+    let totalSkills = 0;
+    
+    portfolioData.skillProgress.forEach((category, categoryIndex) => {
+        const categoryDiv = document.createElement('div');
+        categoryDiv.className = 'skill-category';
+        if (categoryIndex > 0) {
+            categoryDiv.style.marginTop = '6rem';
+        }
         
-        // Determine proficiency label based on percentage
-        let proficiencyLabel = 'Beginner';
-        if (skill.percentage >= 90) proficiencyLabel = 'Expert';
-        else if (skill.percentage >= 80) proficiencyLabel = 'Daily Driver';
-        else if (skill.percentage >= 70) proficiencyLabel = 'Proficient';
-        else if (skill.percentage >= 50) proficiencyLabel = 'Intermediate';
+        const categoryTitle = document.createElement('h3');
+        categoryTitle.className = 'skill-cat-title';
+        categoryTitle.textContent = category.category;
+        categoryDiv.appendChild(categoryTitle);
         
-        skillItem.innerHTML = `
-            <span class="skill-name">${skill.name}</span>
-            <div class="skill-level">
-                <div class="skill-level-track">
-                    <div class="level-bar" data-width="${skill.percentage}%"></div>
+        const skillList = document.createElement('div');
+        skillList.className = 'skill-list';
+        
+        category.skills.forEach(skill => {
+            const skillItem = document.createElement('div');
+            skillItem.className = 'skill-item';
+            
+            // Determine proficiency label based on percentage
+            let proficiencyLabel = 'Beginner';
+            if (skill.percentage >= 90) proficiencyLabel = 'Expert';
+            else if (skill.percentage >= 80) proficiencyLabel = 'Daily Driver';
+            else if (skill.percentage >= 70) proficiencyLabel = 'Proficient';
+            else if (skill.percentage >= 50) proficiencyLabel = 'Intermediate';
+            
+            skillItem.innerHTML = `
+                <span class="skill-name">${skill.name}</span>
+                <div class="skill-level">
+                    <div class="skill-level-track">
+                        <div class="level-bar" data-width="${skill.percentage}%"></div>
+                    </div>
+                    <span>${proficiencyLabel}</span>
                 </div>
-                <span>${proficiencyLabel}</span>
-            </div>
-        `;
+            `;
+            
+            skillList.appendChild(skillItem);
+            totalSkills++;
+        });
         
-        skillsGrid.appendChild(skillItem);
+        categoryDiv.appendChild(skillList);
+        skillsGrid.appendChild(categoryDiv);
     });
     
-    console.log(`Loaded ${portfolioData.skillProgress.length} skills from data.js`);
+    console.log(`Loaded ${totalSkills} skills in ${portfolioData.skillProgress.length} categories from data.js`);
 })();
 
 // ==================================================
@@ -212,6 +234,32 @@
         copyright.textContent = `© ${year} ${portfolioData.name}. All Rights Reserved.`;
     }
     
+    // Add social links
+    const socialsContainer = document.querySelector('.footer-socials');
+    if (socialsContainer && portfolioData.social) {
+        socialsContainer.innerHTML = '';
+        
+        const socialIcons = {
+            github: 'fa-brands fa-github',
+            linkedin: 'fa-brands fa-linkedin-in',
+            instagram: 'fa-brands fa-instagram',
+            twitter: 'fa-brands fa-twitter',
+            facebook: 'fa-brands fa-facebook-f'
+        };
+        
+        Object.entries(portfolioData.social).forEach(([platform, url]) => {
+            if (url) {
+                const link = document.createElement('a');
+                link.href = url;
+                link.target = '_blank';
+                link.rel = 'noopener noreferrer';
+                link.className = 'social-link magnet';
+                link.innerHTML = `<i class="${socialIcons[platform] || 'fa-solid fa-link'}"></i>`;
+                socialsContainer.appendChild(link);
+            }
+        });
+    }
+    
     console.log('Loaded footer from data.js');
 })();
 
@@ -228,23 +276,34 @@ console.log("Using native scrolling (Lenis disabled for compatibility)");
 // ==================================================
 // Only initialize if screen is wide enough (performance on mobile)
 // Wrapped in try-catch because Shery.js requires WebGL and local server
+console.log("Checking Shery.js...");
+console.log("Screen width:", window.innerWidth);
+console.log("Shery defined:", typeof Shery !== 'undefined');
+
 if (window.innerWidth > 768 && typeof Shery !== 'undefined') {
     try {
+        console.log("Initializing Shery.js mouse follower...");
         // A. The Custom Mouse Follower
         Shery.mouseFollower({
             skew: true,
             ease: "cubic-bezier(0.23, 1, 0.320, 1)",
             duration: 1,
         });
+        console.log("Mouse follower initialized!");
 
         // B. Magnetic Buttons & Links
+        console.log("Initializing Shery.js magnetic effect...");
         Shery.makeMagnet(".magnet", {
             ease: "cubic-bezier(0.23, 1, 0.320, 1)",
             duration: 1,
         });
+        console.log("Magnetic effect initialized!");
     } catch (e) {
         console.warn("Shery.js basic effects failed:", e.message);
+        console.error(e);
     }
+} else {
+    console.log("Shery.js skipped - either mobile or Shery not loaded");
 }
 
 // C. Liquid Distortion Effect for Hero Image
@@ -563,6 +622,7 @@ updateTime(); // Run immediately
 const menuToggle = document.querySelector('.menu-toggle');
 const navRight = document.querySelector('.nav-right');
 const navLinks = document.querySelectorAll('.nav-right .nav-link');
+const navbar = document.querySelector('.navbar');
 
 if (menuToggle && navRight) {
     // Toggle menu open/close
@@ -573,11 +633,13 @@ if (menuToggle && navRight) {
             // Close menu
             navRight.classList.remove('active');
             menuToggle.classList.remove('active');
+            if (navbar) navbar.classList.remove('menu-open');
             document.body.style.overflow = ''; // Re-enable scroll
         } else {
             // Open menu
             navRight.classList.add('active');
             menuToggle.classList.add('active');
+            if (navbar) navbar.classList.add('menu-open');
             document.body.style.overflow = 'hidden'; // Prevent background scroll
         }
     };
@@ -590,6 +652,7 @@ if (menuToggle && navRight) {
         link.addEventListener('click', () => {
             navRight.classList.remove('active');
             menuToggle.classList.remove('active');
+            if (navbar) navbar.classList.remove('menu-open');
             document.body.style.overflow = '';
         });
     });
@@ -600,6 +663,7 @@ if (menuToggle && navRight) {
         btnContact.addEventListener('click', () => {
             navRight.classList.remove('active');
             menuToggle.classList.remove('active');
+            if (navbar) navbar.classList.remove('menu-open');
             document.body.style.overflow = '';
         });
     }
@@ -721,6 +785,27 @@ function typeWriter() {
 // Start typing
 setTimeout(typeWriter, 1000);
 
+// ==================================================
+// CLI Horizontal Slide on Scroll (Desktop Only)
+// ==================================================
+let lastScrollY = 0;
+const cliWindow = document.querySelector('.liquid-text-overlay');
+
+if (cliWindow && window.innerWidth > 768) {
+    window.addEventListener('scroll', () => {
+        const scrollY = window.scrollY;
+        const scrollDiff = scrollY - lastScrollY;
+        
+        // Calculate horizontal translation based on scroll
+        // Negative to slide left when scrolling down
+        const translateX = -(scrollY * 1.7); // Slides off screen as you scroll
+        
+        cliWindow.style.transform = `translateX(${translateX}px)`;
+        
+        lastScrollY = scrollY;
+    }, { passive: true });
+}
+
 
 // ==================================================
 // 0. Hero Fun Fact Rotator (CLI Typewriter)
@@ -749,6 +834,9 @@ const skillObserver = new IntersectionObserver((entries) => {
             const targetWidth = bar.getAttribute("data-width");
             
             // Add animation class and set width
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+            
             setTimeout(() => {
                 bar.style.width = targetWidth;
             }, 100);
@@ -760,6 +848,28 @@ const skillObserver = new IntersectionObserver((entries) => {
 
 skillItems.forEach(item => {
     skillObserver.observe(item);
+});
+
+// ==================================================
+// 6.1 HIGHLIGHT TEXT BLUR REVEAL
+// ==================================================
+const highlightElements = document.querySelectorAll(".highlight");
+
+const highlightObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+        } else {
+            entry.target.classList.remove("in-view");
+        }
+    });
+}, {
+    threshold: 0.8,
+    rootMargin: "0px 0px -20% 0px"
+});
+
+highlightElements.forEach(el => {
+    highlightObserver.observe(el);
 });
 
 // ==================================================

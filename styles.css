@@ -497,6 +497,20 @@ img {
     animation: none;
     display: inline-block;
     z-index: 999;
+    transition: transform 0.15s ease-out;
+    will-change: transform;
+}
+
+/* CLI content wrapper for horizontal slide */
+.cli-content {
+    transition: transform 0.15s ease-out;
+    will-change: transform;
+}
+
+/* CLI window container for horizontal slide */
+.liquid-text-overlay {
+    transition: transform 0.15s ease-out;
+    will-change: transform;
 }
 
 
@@ -799,7 +813,8 @@ img {
     display: block;
 }
 
-.skill-list {
+.skill-list,
+.skills-grid {
     display: flex;
     flex-direction: column;
     gap: 4rem;
@@ -1021,6 +1036,32 @@ img {
     color: var(--text-primary);
     margin: 0;
     font-weight: 500;
+}
+
+/* Footer Social Links */
+.footer-socials {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.footer-socials .social-link {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.footer-socials .social-link:hover {
+    background: var(--text-primary);
+    color: var(--bg-primary);
+    transform: scale(1.1);
 }
 
 /* Touch-friendly draggable element */
@@ -1437,8 +1478,17 @@ img {
        MOBILE NAVBAR - MINIMAL & COMPACT
        ============================================ */
     .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
         padding: 0.75rem 1rem;
         background: transparent;
+        mix-blend-mode: difference;
+        z-index: 100;
+    }
+
+    .navbar.menu-open {
         mix-blend-mode: normal;
     }
 
@@ -1448,10 +1498,19 @@ img {
 
     .navbar .logo {
         font-size: 1.1rem;
+        color: #ffffff;
+    }
+
+    /* When menu is open, use theme color for logo */
+    .navbar.menu-open .logo {
         color: var(--text-primary);
     }
 
     [data-theme="light"] .navbar .logo {
+        color: #ffffff;
+    }
+
+    [data-theme="light"] .navbar.menu-open .logo {
         color: var(--text-primary);
     }
 
@@ -1472,10 +1531,15 @@ img {
     .menu-toggle .bar {
         height: 2px;
         width: 20px;
-        background: var(--text-primary);
+        background: #ffffff;
         border-radius: 2px;
         transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         transform-origin: center;
+    }
+
+    /* When menu is open, use theme color for X icon */
+    .navbar.menu-open .menu-toggle .bar {
+        background: var(--text-primary);
     }
 
     /* Hamburger to X transformation */

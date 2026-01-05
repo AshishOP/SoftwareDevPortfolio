@@ -9,7 +9,7 @@ const portfolioData = {
   // Personal Info
   name: "Ashish Shukla", // Your full name
   roles: ["Full Stack Developer", "React Specialist", "AI Enthusiast"], // Your roles/titles (used in hero section)
-  bio: "A passionate Full Stack Software Developer 🚀 with experience building Web and Mobile applications using JavaScript, React.js, Node.js, Python, and AI tools.", // Your bio (used in About section)
+  bio: "I don't just write code; I engineer <span class=\"highlight\">human experiences</span>. In a digital world full of noise, I help brands find their rhythm, blending elite aesthetics with robust architecture.", // Your bio (used in About section)
   
   // Contact
   email: "ashishshuklacr@gmail.com",
@@ -22,14 +22,25 @@ const portfolioData = {
   },
   
   // Skill Progress (for skills section with progress bars)
+  // Organized by categories for better presentation
   skillProgress: [
-    { name: "Python", percentage: 55 },
-    { name: "HTML & CSS", percentage: 65 },
-    { name: "JavaScript", percentage: 60 },
-    { name: "TypeScript", percentage: 35 },
-    { name: "GitHub & Actions", percentage: 70 },
-    { name: "GitHub Copilot", percentage: 90 },
-    { name: "Figma", percentage: 65 },
+    {
+      category: "Languages & Core",
+      skills: [
+        { name: "Python", percentage: 55 },
+        { name: "HTML & CSS", percentage: 65 },
+        { name: "JavaScript", percentage: 60 },
+        { name: "TypeScript", percentage: 35 },
+      ]
+    },
+    {
+      category: "Tools & Workflow",
+      skills: [
+        { name: "GitHub & Actions", percentage: 70 },
+        { name: "GitHub Copilot", percentage: 90 },
+        { name: "Figma", percentage: 65 },
+      ]
+    }
   ],
   
   // Education
