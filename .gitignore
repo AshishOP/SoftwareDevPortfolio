@@ -25,3 +25,15 @@ yarn-error.log*
 #user generated content
 public/profile.json
 public/blogs.json
+
+# IDE and Editor files
+.vscode/
+.idea/
+.qodo/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -1,7 +1,28 @@
 {
-  "name": "portfolio",
+  "name": "ashish-portfolio",
   "version": "1.0.0",
+  "description": "Modern portfolio website built with vanilla JavaScript, Shery.js effects, and native scroll",
+  "main": "index.html",
   "scripts": {
-    "build": "echo 'No build step'"
-  }
+    "serve": "python -m http.server 8000",
+    "start": "npx http-server -p 8000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AshishOP/GitPortfolio.git"
+  },
+  "keywords": [
+    "portfolio",
+    "website",
+    "vanilla-javascript",
+    "shery-js",
+    "responsive",
+    "open-source"
+  ],
+  "author": "Ashish Shukla",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/AshishOP/GitPortfolio/issues"
+  },
+  "homepage": "https://www.icy4sh.studio"
 }

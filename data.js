@@ -1,18 +1,18 @@
 // ============================================
 // YOUR PERSONAL DATA - Edit this file only!
 // ============================================
+// This is the ONLY file you need to edit to customize your portfolio.
+// Replace all the information below with your own details.
+// Images should be placed in assets/images/ folder.
 
 const portfolioData = {
   // Personal Info
-  name: "Ashish Shukla",
-  greeting: "Hi, I'm Ashish",
-  roles: ["Full Stack Developer", "React Specialist", "AI Enthusiast"],
-  bio: "A passionate Full Stack Software Developer 🚀 with experience building Web and Mobile applications using JavaScript, React.js, Node.js, Python, and AI tools.",
+  name: "Ashish Shukla", // Your full name
+  roles: ["Full Stack Developer", "React Specialist", "AI Enthusiast"], // Your roles/titles (used in hero section)
+  bio: "A passionate Full Stack Software Developer 🚀 with experience building Web and Mobile applications using JavaScript, React.js, Node.js, Python, and AI tools.", // Your bio (used in About section)
   
   // Contact
   email: "ashishshuklacr@gmail.com",
-  phone: "+91-XXXXXXXXXX",
-  location: "India",
   
   // Social Links
   social: {
@@ -21,50 +21,40 @@ const portfolioData = {
     instagram: "https://www.instagram.com/icy4sh/",
   },
   
-  // Resume Link (leave empty to hide button)
-  resumeLink: "",
-  
-  // Skills
-  skills: [
-    { name: "HTML5", icon: "fab fa-html5", color: "#E34F26" },
-    { name: "CSS3", icon: "fab fa-css3-alt", color: "#1572B6" },
-    { name: "JavaScript", icon: "fab fa-js", color: "#F7DF1E" },
-    { name: "React", icon: "fab fa-react", color: "#61DAFB" },
-    { name: "Node.js", icon: "fab fa-node", color: "#339933" },
-    { name: "Python", icon: "fab fa-python", color: "#3776AB" },
-    { name: "Git", icon: "fab fa-git-alt", color: "#F05032" },
-    { name: "AWS", icon: "fab fa-aws", color: "#FF9900" },
-    { name: "Database", icon: "fas fa-database", color: "#336791" },
-    { name: "Firebase", icon: "fas fa-fire", color: "#FFCA28" },
-    { name: "npm", icon: "fab fa-npm", color: "#CB3837" },
-    { name: "AI", icon: "fas fa-brain", color: "#9B59B6" },
-  ],
-  
-  // What I Do
-  whatIDo: [
-    "⚡ Develop highly interactive Front end / User Interfaces for web and mobile applications",
-    "⚡ Building scalable backend systems and RESTful APIs with Node.js and Python",
-    "⚡ Integration of third party services such as Firebase / AWS / Digital Ocean",
-    "⚡ Leveraging AI tools and technologies for efficient development and automation"
-  ],
-  
-  // Skill Progress
+  // Skill Progress (for skills section with progress bars)
   skillProgress: [
-    { name: "Frontend Development", percentage: 85 },
-    { name: "Backend Development", percentage: 80 },
-    { name: "AI & Automation", percentage: 75 },
+    { name: "Python", percentage: 55 },
+    { name: "HTML & CSS", percentage: 65 },
+    { name: "JavaScript", percentage: 60 },
+    { name: "TypeScript", percentage: 35 },
+    { name: "GitHub & Actions", percentage: 70 },
+    { name: "GitHub Copilot", percentage: 90 },
+    { name: "Figma", percentage: 65 },
   ],
   
   // Education
   education: [
     {
       school: "MIT ACSC",
-      degree: "Bachelor of Computer Science (BCS)",
-      duration: "July 2023 - April 2026",
+      degree: "Bachelor of Science in Computer Science",
+      duration: "2023 — 2026",
       description: "Pursuing Computer Science with focus on Full Stack Development and AI technologies.",
       highlights: [
-        "Learning advanced web development, data structures, and algorithms",
-        "Building real-world projects and exploring AI/ML technologies"
+        {
+          icon: "code",
+          title: "Hackathon Participant",
+          description: "Actively participated in multiple hackathons, gaining experience in rapid prototyping and team collaboration under pressure."
+        },
+        {
+          icon: "trophy",
+          title: "Coding Competitions",
+          description: "Competed in various college-level programming contests, sharpening problem-solving skills and algorithmic thinking."
+        },
+        {
+          icon: "rocket",
+          title: "Self-Driven Projects",
+          description: "Built real-world applications beyond curriculum, including full-stack e-commerce platforms and portfolio websites."
+        }
       ],
       logo: "assets/images/MITlogo.webp"
     }
@@ -74,27 +64,32 @@ const portfolioData = {
   projects: [
     {
       name: "Ragebait Clothing",
-      description: "A clothing brand I founded and built from the ground up, handling all technical aspects including e-commerce platform, waitlist system, and digital infrastructure end-to-end.",
-      image: "assets/images/ragebait-logo.webp",
-      links: [
-        { name: "Visit Waitlist", url: "https://waitlist.ragebaitclothing.in/" },
-        { name: "Visit Shop", url: "https://test.ragebaitclothing.in/" }
-      ],
-      tags: ["E-Commerce", "Full Stack", "React", "Node.js"]
+      description: "A full-stack e-commerce platform for a clothing brand with inventory management and payment processing.",
+      image: "assets/images/ragebaithome.png",
+      role: "Tech Lead & Founder",
+      number: "01",
+      stack: ["Typescript", "Python", "PostgreSQL", "Cashfree"],
+      link: "https://test.ragebaitclothing.in"
+    },
+    {
+      name: "Ragebait Waitlist",
+      description: "Waitlist page configured with automated thank-you emails and SMTP admin notifications.",
+      image: "assets/images/ragebaitwaitlist.png",
+      role: "Full Stack Developer",
+      number: "02",
+      stack: ["Python", "HTML", "CSS", "PostgreSQL"],
+      link: "https://ragebaitclothing.in"
+    },
+    {
+      name: "StrayHope",
+      description: "Adoption platform for strays featuring an admin dashboard for managing registrations and emergency services.",
+      image: "assets/images/strayhope.png",
+      role: "Full Stack Developer",
+      number: "03",
+      stack: ["React", "SQLite", "Cloudflare D1 R2", "Next.js"],
+      link: "https://strayhope-mono.pages.dev"
     }
-  ],
-  
-  // GitHub username for fetching repos
-  githubUsername: "AshishOP",
-  
-  // Settings
-  settings: {
-    showGithubRepos: true,
-    showEducation: true,
-    showProjects: true,
-    showContact: true,
-    isHireable: true,
-  }
+  ]
 };
 
 // Export for use
