@@ -28,6 +28,9 @@
     --text-primary: #ffffff;
     --text-secondary: #888888;
     --border-color: #333333;
+
+    /* iOS viewport height fix */
+    --vh: 1vh;
 }
 
 /* Light Theme */
@@ -64,6 +67,19 @@ body {
     overflow: visible;
     /* CRITICAL: Must be visible for position: sticky to work */
     transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* iOS Safari Scroll Jitter Fix */
+@media (hover: none) and (pointer: coarse) {
+    @supports (-webkit-touch-callout: none) {
+        html {
+            height: -webkit-fill-available;
+        }
+
+        body {
+            min-height: -webkit-fill-available;
+        }
+    }
 }
 
 /* Hide Default Scrollbar (Lenis handles it) */
@@ -280,6 +296,7 @@ img {
 .hero {
     width: 100%;
     min-height: 100vh;
+    min-height: 100svh;
     padding: 8rem 3rem 2rem;
     display: flex;
     flex-direction: column;
@@ -630,6 +647,7 @@ img {
     position: sticky;
     top: 0;
     height: 100vh;
+    height: 100svh;
     width: 100%;
     overflow: hidden;
     display: flex;
@@ -1866,4 +1884,27 @@ img {
 
 [data-theme="light"] .skill-row:hover {
     background: #e0e0e0;
+}
+
+/* ============================================
+   iOS SAFARI FIXES
+   ============================================ */
+/* iOS Safari: Prevent layout shift when address bar hides */
+@supports (-webkit-touch-callout: none) {
+    /* iOS-specific styles - only affect touch devices */
+    @media (hover: none) and (pointer: coarse) {
+        body {
+            /* Use smallest possible viewport to prevent jumps */
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+        }
+    }
+}
+
+/* Prevent zoom/scale on iOS when switching between portrait and landscape */
+@media screen and (max-width: 768px) {
+    html {
+        text-size-adjust: 100%;
+        -webkit-text-size-adjust: 100%;
+    }
 }
